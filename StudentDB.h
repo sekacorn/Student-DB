@@ -1,99 +1,83 @@
 #ifndef STUDENTDB_H
 #define STUDENTDB_H
-#include<string>
+
+#include <string>
 using namespace std;
 
-
-
-class Course
- {
+class Course {
 public: 
 	string courseName;
-	string Department;
-	string Semester;
-	Course *next;
-	Course *prev;
-	string Grade;
+	string department;
+	string semester;
+	Course* next;
+	Course* prev;
+	string grade;
 
-	Course(){
-	courseName = " "; Department = " "; Semester = " "; 
+	Course() {
+		courseName = " ";
+		department = " ";
+		semester = " ";
+		grade = ' ';
+		prev = NULL;
+		next = NULL;
+	}
 
-	 Grade = ' '; prev=NULL; next=NULL;
-}
-Course(string courseId, string realDepartment, string realSemester, char realGrade,Course *prevNode, Course *nextNode){
-
-prev = prevNode; next = nextNode; courseName = courseId; Department = realDepartment; Grade = realGrade; Semester = realSemester;
-
-}
+	Course(string courseId, string realDepartment, string realSemester, char realGrade, Course* prevNode, Course* nextNode) {
+		prev = prevNode;
+		next = nextNode;
+		courseName = courseId;
+		department = realDepartment;
+		grade = realGrade;
+		semester = realSemester;
+	}
 };
-
 
 template<typename T>
 class Student {
-	public:
-
-		string name;
-		string DateOfBirth;
-		string major;
-		Student<T> *next;
-		Student<T> *prev;
-		Course *courseNext;
-		//Default Constructor
-		Student() {
-			name = "a"; DateOfBirth = "b"; major = "c"; next = NULL; prev = NULL; courseNext=NULL;
-		}
-		//
-		//Initializing variables
-		
-		Student(string studentName, string studentBirth, string studentMajor, Student<T> *prevNode, Student<T> *nextNode) {
-			prev = prevNode; next = nextNode, name = studentName; DateOfBirth = studentBirth;  major = studentMajor;
-			courseNext=NULL; 
-		}
-	Course* createCourse(string, string, string, string );
-void InsertCourse(Course*, Student<T>*, string, string , string , string, string);
-void deleteCourse(Student<T>*, Course*&, string, string);
-void updateCourse(Student<T>*, string,string, string , string,string, string);
-		
-	};
-
-
-
-template <typename T>
-
-class StudentDB {
 public:
+	string name;
+	string dateOfBirth;
+	string major;
+	Student<T>* next;
+	Student<T>* prev;
+	Course* courseNext;
 
-
-	Student <T> pupil;
-	StudentDB() {
-		
+	Student() {
+		name = "a";
+		dateOfBirth = "b";
+		major = "c";
+		next = NULL;
+		prev = NULL;
+		courseNext = NULL;
 	}
-	//template<typename T>
-	//Creating a student record
 
-	//template<typename T>
-	//void Print(Student<T>) {}
-	void PrintStudentandCourse(Student<T>*,Course*, string);
-	void Print(Student<T> *Pupil,Course *Class);
-	int deleteStudent(Student<T> *&, string,int&);
-	void updateStudent(Student<T>*, string, string, string, string);
-	int  insertStudent(Student<T> *&, string, string , string, int&);
+	Student(string studentName, string studentBirth, string studentMajor, Student<T>* prevNode, Student<T>* nextNode) {
+		prev = prevNode;
+		next = nextNode;
+		name = studentName;
+		dateOfBirth = studentBirth;
+		major = studentMajor;
+		courseNext = NULL; 
+	}
 
+	Course* createCourse(string, string, string, string);
+	void InsertCourse(Course*, Student<T>*, string, string, string, string, string);
+	void deleteCourse(Student<T>*, Course*&, string, string);
+	void updateCourse(Student<T>*, string, string, string, string, string, string);
 };
 
+template<typename T>
+class StudentDB {
+public:
+	Student<T> pupil;
 
+	StudentDB() {}
 
+	void PrintStudentandCourse(Student<T>*, Course*, string);
+	void Print(Student<T>*, Course*);
+	int deleteStudent(Student<T>*&, string, int&);
+	void updateStudent(Student<T>*, string, string, string, string);
+	int insertStudent(Student<T>*&, string, string, string, int&);
+};
 
-
-
-
-
-
-
-
-
-
-
-
-
-#endif   // StudentDB_CLASS
+#endif // STUDENTDB_H
