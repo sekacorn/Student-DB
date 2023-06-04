@@ -24,8 +24,8 @@ To use this code, follow the steps below:
 ## Code Structure
 
 - `StudentDB.h`: Header file containing the declarations of the StudentDB class and its member functions.
-- `Source.cpp`: Implementation file containing the definitions of the Student and Course class member functions.
-- `StudentDB.cpp`: The main driver code that initializes the database, performs operations on student records and courses, and provides a menu-driven interface.
+- `StudentDB.cpp`: Implementation file containing the definitions of the Student and Course class member functions.
+- `Source.cpp`: The main driver code that initializes the database, performs operations on student records and courses, and provides a menu-driven interface.
 
 ## Usage
 
