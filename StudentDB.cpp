@@ -83,3 +83,15 @@ void StudentDB::displayDatabase() const
         current = current->next;
     }
 }
+// Find Student
+Student* StudentDB::findStudent(const std::string& studentId) const
+{
+    Student* current = head;
+    while (current) {
+        if (current->getStudentId() == studentId)
+            return current;
+        current = current->next;
+    }
+    return nullptr;
+}
+
