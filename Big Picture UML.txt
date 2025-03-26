@@ -1,61 +1,71 @@
-          +---------------------------+
-          |     Course                |
-          +---------------------------+
-          | - name: string            |
-          | - ID: int                 |
-          | - summary: string         |
-          | - instructorName: string  |
-          | - instructorID: int       |
-          | - gradePercentage: double |
-          | - gradeLetter: string     |
-          +---------------------------+
-                       |
-                       |
-          +----------------------+
-          |     Student          |
-          +----------------------+
-          | - firstName: string  |
-          | - middleName: string |
-          | - lastName: string   |
-          | - ID: int            |
-          | - email: string      |
-          | - courses: Course*   |
-          +----------------------+
-                      |
-		      |
-                      |
-          +----------------------+
-          |   Instructor         |
-          +----------------------+
-          | - firstName: string  |
-          | - middleName: string |
-          | - lastName: string   |
-          | - email: string      |
-          | - title: string      |
-          | - summary: string    |
-          +----------------------+
-                     |
-                     |
-          +------------------+
-          |    StudentDB     |
-          +-----------------+
-          | - head: Student* |
-          | - tail: Student* |
-          +------------------+
-                   |
-                   |
-          +---------------------+
-          |   InstructorDB      |
-          +---------------------+
-          | - head: Instructor* |
-          | - tail: Instructor* |
-          +---------------------+
-                   |
-                   |
-          +--------------------------+
-          |       User               |
-          +--------------------------+
-          | - username: string       |
-          | - password: string       |
-          | - accessPrivileges: bool |
-          +--------------------------+
++---------------------------+ 
+|         Course            |
++---------------------------+
+| - name: string            |
+| - ID: int                 |
+| - summary: string         |
+| - instructorName: string  |
+| - instructorID: int       |
+| - gradePercentage: double |
+| - gradeLetter: string     |
++---------------------------+
+
+           |
+           |
++---------------------------+
+|         Student           |
++---------------------------+
+| - firstName: string       |
+| - middleName: string      |
+| - lastName: string        |
+| - ID: int                 |
+| - email: string           |
+| - courses: Course*        |
++---------------------------+
+
+           |
+           |
++---------------------------+
+|       Instructor          |
++---------------------------+
+| - firstName: string       |
+| - middleName: string      |
+| - lastName: string        |
+| - email: string           |
+| - title: string           |
+| - summary: string         |
++---------------------------+
+
+           |
+           |
++----------------------------+
+|         StudentDB          |
++----------------------------+
+| - head: Student*           |
+| - tail: Student*           |
++----------------------------+
+| + findStudent(id: string): |
+|       Student*             |
++----------------------------+
+
+           |
+           |
++-------------------------------+
+|         InstructorDB          |
++-------------------------------+
+| - head: Instructor*           |
+| - tail: Instructor*           |
++-------------------------------+
+| + findInstructor(id: string): |
+|       Instructor*             |
++-------------------------------+
+
+           |
+           |
++-------------------------------+
+|            User               |
++-------------------------------+
+| - username: string            |
+| - password: string            |
+| - accessPrivileges: bool      |
++-------------------------------+
