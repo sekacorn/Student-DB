@@ -25,6 +25,9 @@ public:
     // Change the fields of an instructor in the database
     void changeInstructor(const std::string& instructorId, const Instructor& newInstructor);
 
+    //Find Instructor
+    Instructor* findInstructor(const std::string& instructorId) const;
+
     // Display the database
     void displayDatabase() const;
 };
