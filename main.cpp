@@ -4,120 +4,159 @@
 #include "InstructorDB.h"
 #include "User.h"
 
-void createMockStudentDB(StudentDB& studentDB)
-{
-    // Create students
-    Student student1("John", "Doe", "123456", "john.doe@example.com");
-    Student student2("Jane", "Smith", "789012", "jane.smith@example.com");
-
-    // Create courses
-    Course course1("Math", "MATH101", "Course on Mathematics", "John Doe", "001", 90.0, "A");
-    Course course2("Physics", "PHYS101", "Course on Physics", "Jane Smith", "002", 85.0, "B");
-
-    // Add courses to students
-    student1.addCourse(course1);
-    student2.addCourse(course2);
-
-    // Add students to StudentDB
-    studentDB.addStudent(student1);
-    studentDB.addStudent(student2);
-}
-
-void createMockInstructorDB(InstructorDB& instructorDB)
-{
-    // Create instructors
-    Instructor instructor1("Professor", "Smith", "John", "john.smith@example.com", "Mathematics", "Experienced Math instructor");
-    Instructor instructor2("Professor", "Johnson", "Jane", "jane.johnson@example.com", "Physics", "Physics expert");
-
-    // Create courses
-    Course course1("Math", "MATH101", "Course on Mathematics", "John Smith", "001", 90.0, "A");
-    Course course2("Physics", "PHYS101", "Course on Physics", "Jane Johnson", "002", 85.0, "B");
-
-    // Add courses to instructors
-    instructor1.addCourse(course1);
-    instructor2.addCourse(course2);
-
-    // Add instructors to InstructorDB
-    instructorDB.addInstructor(instructor1);
-    instructorDB.addInstructor(instructor2);
-}
-
-void displayMenu()
-{
+// Display main menu
+void displayMenu() {
     std::cout << "========== MENU ==========" << std::endl;
     std::cout << "1. Display Student Database" << std::endl;
     std::cout << "2. Display Instructor Database" << std::endl;
     std::cout << "3. Add Student" << std::endl;
     std::cout << "4. Add Instructor" << std::endl;
-    std::cout << "5. Exit" << std::endl;
+    std::cout << "5. Update Student" << std::endl;
+    std::cout << "6. Update Instructor" << std::endl;
+    std::cout << "7. Delete Student" << std::endl;
+    std::cout << "8. Delete Instructor" << std::endl;
+    std::cout << "9. Find Student" << std::endl;
+    std::cout << "10. Find Instructor" << std::endl;
+    std::cout << "11. Exit" << std::endl;
     std::cout << "==========================" << std::endl;
 }
 
-int main()
-{
-    // Create User
+// Utility to prompt and construct a Student object
+Student createStudentFromInput() {
+    std::string firstName, middleName, lastName, dob, id, email;
+    std::cout << "First name: "; std::cin >> firstName;
+    std::cout << "Middle name: "; std::cin >> middleName;
+    std::cout << "Last name: "; std::cin >> lastName;
+    std::cout << "Date of birth (YYYY-MM-DD): "; std::cin >> dob;
+    std::cout << "Student ID: "; std::cin >> id;
+    std::cout << "Email: "; std::cin >> email;
+
+    return Student(firstName, middleName, lastName, dob, id, email);
+}
+
+// Utility to prompt and construct an Instructor object
+Instructor createInstructorFromInput() {
+    std::string firstName, middleName, lastName, email, title, summary;
+    std::cout << "First name: "; std::cin >> firstName;
+    std::cout << "Middle name: "; std::cin >> middleName;
+    std::cout << "Last name: "; std::cin >> lastName;
+    std::cout << "Email: "; std::cin >> email;
+    std::cout << "Title: "; std::cin >> title;
+    std::cin.ignore(); // flush newline
+    std::cout << "Summary: "; std::getline(std::cin, summary);
+
+    return Instructor(firstName, middleName, lastName, email, title, summary);
+}
+
+// Add some mock/test data to StudentDB
+void seedStudentDB(StudentDB& db) {
+    db.addStudent(Student("Alice", "B", "Carter", "2002-05-14", "S1001", "alice@example.com"));
+    db.addStudent(Student("Bob", "D", "Evans", "2001-11-03", "S1002", "bob@example.com"));
+}
+
+// Add mock/test data to InstructorDB
+void seedInstructorDB(InstructorDB& db) {
+    db.addInstructor(Instructor("Dr", "James", "Hughes", "hughes@school.edu", "Physics", "Expert in quantum physics"));
+    db.addInstructor(Instructor("Ms", "Linda", "Gray", "lgray@school.edu", "Math", "Loves teaching calculus"));
+}
+
+// Main app loop
+int main() {
     User user;
     user.setUsername("admin");
     user.setPassword("password");
     user.setAccessPrivileges(true);
 
-    // Create StudentDB and InstructorDB objects
     StudentDB studentDB;
     InstructorDB instructorDB;
 
-    // Populate StudentDB with mock data
-    createMockStudentDB(studentDB);
+    // Load mock data for demo/testing
+    seedStudentDB(studentDB);
+    seedInstructorDB(instructorDB);
 
-    // Populate InstructorDB with mock data
-    createMockInstructorDB(instructorDB);
-
-    // User Login
     std::string username, password;
-    std::cout << "Please enter your username: ";
-    std::cin >> username;
-    std::cout << "Please enter your password: ";
-    std::cin >> password;
+    std::cout << "Username: "; std::cin >> username;
+    std::cout << "Password: "; std::cin >> password;
 
-    if (user.getUsername() == username && user.getPassword() == password && user.hasAccessPrivileges())
-    {
+    if (user.getUsername() == username && user.getPassword() == password && user.hasAccessPrivileges()) {
         int choice;
-        do
-        {
+        do {
             displayMenu();
             std::cout << "Enter your choice: ";
             std::cin >> choice;
 
-            switch (choice)
-            {
+            std::string id;
+            switch (choice) {
                 case 1:
-                    std::cout << "\nStudent Database:" << std::endl;
-                    studentDB.display();
+                    std::cout << "\n-- Student Database --\n";
+                    studentDB.displayDatabase();
                     break;
                 case 2:
-                    std::cout << "\nInstructor Database:" << std::endl;
-                    instructorDB.display();
+                    std::cout << "\n-- Instructor Database --\n";
+                    instructorDB.displayDatabase();
                     break;
                 case 3:
-		    std::cout << "\nAdd Student to Student Database:" << std::endl;                
-                    // Will create to add  a student to the StudentDB
+                    studentDB.addStudent(createStudentFromInput());
+                    std::cout << " Student added!\n";
                     break;
                 case 4:
-		    std::cout << "\nAdd Instructor to Instructor Database:" << std::endl;
-                    //Will Create to add Instructor to InstructorDB
+                    instructorDB.addInstructor(createInstructorFromInput());
+                    std::cout << " Instructor added!\n";
                     break;
                 case 5:
-                    std::cout << "Exiting program..." << std::endl;
+                    std::cout << "Enter student ID to update: ";
+                    std::cin >> id;
+                    studentDB.changeStudent(id, createStudentFromInput());
+                    std::cout << " Student updated!\n";
+                    break;
+                case 6:
+                    std::cout << "Enter instructor ID to update: ";
+                    std::cin >> id;
+                    instructorDB.changeInstructor(id, createInstructorFromInput());
+                    std::cout << " Instructor updated!\n";
+                    break;
+                case 7:
+                    std::cout << "Enter student ID to delete: ";
+                    std::cin >> id;
+                    studentDB.removeStudent(id);
+                    std::cout << " Student removed!\n";
+                    break;
+                case 8:
+                    std::cout << "Enter instructor ID to delete: ";
+                    std::cin >> id;
+                    instructorDB.removeInstructor(id);
+                    std::cout << " Instructor removed!\n";
+                    break;
+                case 9:
+                    std::cout << "Enter student ID to find: ";
+                    std::cin >> id;
+                    if (Student* s = studentDB.findStudent(id)) {
+                        std::cout <<  Found: " << s->getFirstName() << " " << s->getLastName() << "\n";
+                    } else {
+                        std::cout << " Student not found.\n";
+                    }
+                    break;
+                case 10:
+                    std::cout << "Enter instructor ID to find: ";
+                    std::cin >> id;
+                    if (Instructor* i = instructorDB.findInstructor(id)) {
+                        std::cout << " Found: " << i->getFirstName() << " " << i->getLastName() << "\n";
+                    } else {
+                        std::cout << " Instructor not found.\n";
+                    }
+                    break;
+                case 11:
+                    std::cout << " Exiting program..." << std::endl;
                     break;
                 default:
-                    std::cout << "Invalid choice. Please try again." << std::endl;
+                    std::cout << " Invalid choice. Try again." << std::endl;
                     break;
             }
+
             std::cout << std::endl;
-        } while (choice != 5);
-    }
-    else
-    {
-        std::cout << "Invalid username or password. Access denied." << std::endl;
+        } while (choice != 11);
+    } else {
+        std::cout << " Access Denied.\n";
     }
 
     return 0;
