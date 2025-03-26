@@ -74,6 +74,19 @@ void InstructorDB::changeInstructor(const std::string& instructorId, const Instr
     }
 }
 
+//Find Instructor
+Instructor* InstructorDB::findInstructor(const std::string& instructorId) const
+{
+    Instructor* current = head;
+    while (current) {
+        if (current->getInstructorId() == instructorId)
+            return current;
+        current = current->next;
+    }
+    return nullptr;
+}
+
+
 // Display the database
 void InstructorDB::displayDatabase() const
 {
@@ -83,3 +96,4 @@ void InstructorDB::displayDatabase() const
         current = current->next;
     }
 }
+
