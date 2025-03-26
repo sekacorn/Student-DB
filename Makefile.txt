@@ -1,3 +1,4 @@
+# Compiler and flags
 CXX = g++
 CXXFLAGS = -std=c++11 -Wall
 
@@ -6,24 +7,26 @@ SRC_DIR = src
 OBJ_DIR = obj
 BIN_DIR = bin
 
-# Source files
-SRC_FILES = $(wildcard $(SRC_DIR).cpp)
-OBJ_FILES = $(patsubst $(SRC_DIR)%.cpp,$(OBJ_DIR)%.o,$(SRC_FILES))
+# Source and object files
+SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
+OBJ_FILES = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
-# Executable name
-EXEC = $(BIN_DIR)main
+# Output binary
+EXEC = $(BIN_DIR)/main
 
-.PHONY all clean
+# Default target
+all: $(EXEC)
 
-all $(EXEC)
-
-$(EXEC) $(OBJ_FILES)
+# Link object files to create final executable
+$(EXEC): $(OBJ_FILES)
 	@mkdir -p $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
-$(OBJ_DIR)%.o $(SRC_DIR)%.cpp
+# Compile .cpp files to .o object files
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(OBJ_DIR)
-	$(CXX) $(CXXFLAGS) -c $ -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-clean
+# Clean object and binary directories
+clean:
 	$(RM) -r $(OBJ_DIR) $(BIN_DIR)
